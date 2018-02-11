@@ -1,5 +1,7 @@
 import openSocket from 'socket.io-client';
-const  socket = openSocket('http://tirdman.xyz:5000');
+// const  socket = openSocket('http://tirdman.xyz:5000');
+const  socket = openSocket('http://localhost:5000');
+
 
 function subscribeToTimer(cb) {
   socket.on('connect_error', function (data) {
@@ -19,4 +21,14 @@ function subscribeToDf(cb) {
 
 }
 
-export { subscribeToTimer, subscribeToDf };
+function subscribeToWhiteIP(cb) {
+  socket.on('connect_error', function (data) {
+    cb(data);
+  });
+  socket.on('remoteIP', data => cb(null, data));
+  socket.emit('subscribeToWhiteIP');
+
+}
+
+
+export { subscribeToTimer, subscribeToDf, subscribeToWhiteIP };
